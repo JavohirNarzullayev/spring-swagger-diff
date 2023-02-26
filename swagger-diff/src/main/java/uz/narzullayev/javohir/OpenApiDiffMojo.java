@@ -34,12 +34,18 @@ public class OpenApiDiffMojo extends AbstractMojo {
     @Parameter(property = "failOnChanged", defaultValue = "false")
     Boolean failOnChanged = false;
 
+    @Parameter(property = "htmlPage")
+    String htmlPage;
+
 
     @Component
     protected MavenProject project;
 
     @Parameter(defaultValue = "${project.basedir}/src/main/resources", required = true, readonly = true)
     private String sourceResourceDir;
+
+    @Parameter(defaultValue = "${project.basedir}/target", required = true, readonly = true)
+    private String targetResourceDir;
 
     @Parameter(defaultValue = "${localRepository}", readonly = true, required = true)
     protected ArtifactRepository localRepository;
@@ -49,9 +55,14 @@ public class OpenApiDiffMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
         try {
             final var diff = OpenApiCompare.fromLocations(oldSpec, newSpec);
-            var html = new HtmlRender("Swagger Diff", "http://deepoove.com/swagger-diff/stylesheets/demo.css").render(diff);
+            var html = new HtmlRender(
+                    "Swagger Diff",
+                    "http://deepoove.com/swagger-diff/stylesheets/demo.css"
+            ).render(diff);
             try {
-                var fw = new FileWriter(sourceResourceDir + "/templates/changelog.html");
+                String fileName = targetResourceDir + "/changelog.html";
+                htmlPage = fileName;
+                var fw = new FileWriter(fileName);
                 fw.write(html);
                 fw.close();
             } catch (IOException e) {

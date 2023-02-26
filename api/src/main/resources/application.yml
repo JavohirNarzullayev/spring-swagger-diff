@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /v1/test/index.html
+  api-docs:
+    path: /v1/test/api-docs

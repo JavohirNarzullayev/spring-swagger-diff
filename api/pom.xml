@@ -41,8 +41,8 @@
                             <goal>diff</goal>
                         </goals>
                         <configuration>
-                            <newSpec>https://dev-api.birdarcha.uz/v1/swagger/api-docs/admin</newSpec>
-                            <oldSpec>https://reg-api.tashkentlawspring.uz/v1/law/api-docs</oldSpec>
+                            <newSpec>https://reg-api.tashkentlawspring.uz/v1/law/api-docs</newSpec>
+                            <oldSpec>https://dev-api.birdarcha.uz/v1/swagger/api-docs/admin</oldSpec>
                         </configuration>
                     </execution>
                 </executions>

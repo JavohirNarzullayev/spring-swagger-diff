@@ -48,8 +48,8 @@ public class OpenApiDiffMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         try {
-            final ChangedOpenApi diff = OpenApiCompare.fromLocations(oldSpec, newSpec);
-            var html = new HtmlRender("Changelog", "http://deepoove.com/swagger-diff/stylesheets/demo.css").render(diff);
+            final var diff = OpenApiCompare.fromLocations(oldSpec, newSpec);
+            var html = new HtmlRender("Swagger Diff", "http://deepoove.com/swagger-diff/stylesheets/demo.css").render(diff);
             try {
                 var fw = new FileWriter(sourceResourceDir + "/templates/changelog.html");
                 fw.write(html);

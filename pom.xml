@@ -8,6 +8,7 @@
   <modules>
     <module>swagger-diff</module>
     <module>api</module>
+      <module>autoconfigure</module>
   </modules>
   <packaging>pom</packaging>
 

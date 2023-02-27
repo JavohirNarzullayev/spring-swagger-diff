@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  uz.narzullayev.javohir.SwaggerDiffAutoConfiguration
+
+org.springframework.boot.env.EnvironmentPostProcessor=\
+   uz.narzullayev.javohir.SwaggerDiffAutoConfigurationEnvironmentPostProcessor

@@ -27,6 +27,11 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.8</version>
         </dependency>
+        <dependency>
+            <groupId>uz.narzullayev.javohir</groupId>
+            <artifactId>autoconfigure</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -41,8 +46,8 @@
                             <goal>diff</goal>
                         </goals>
                         <configuration>
-                            <newSpec>https://reg-api.tashkentlawspring.uz/v1/law/api-docs</newSpec>
-                            <oldSpec>https://dev-api.birdarcha.uz/v1/swagger/api-docs/admin</oldSpec>
+                            <newSpec>http://localhost:8080/v1/test/api-docs</newSpec>
+                            <oldSpec>https://api.birdarcha.uz/v1/swagger/api-docs/admin</oldSpec>
                         </configuration>
                     </execution>
                 </executions>

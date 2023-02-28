@@ -2,12 +2,14 @@ package uz.narzullayev.javohir.compare;
 
 import io.swagger.v3.oas.models.security.OAuthFlow;
 import uz.narzullayev.javohir.model.ChangedOAuthFlow;
+import uz.narzullayev.javohir.utils.ChangedUtils;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
+import static uz.narzullayev.javohir.utils.ChangedUtils.*;
 import static uz.narzullayev.javohir.utils.ChangedUtils.isChanged;
 
 public class OAuthFlowDiff {

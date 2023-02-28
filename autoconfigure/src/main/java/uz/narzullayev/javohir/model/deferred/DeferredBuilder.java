@@ -3,6 +3,7 @@ package uz.narzullayev.javohir.model.deferred;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uz.narzullayev.javohir.model.Changed;
+import uz.narzullayev.javohir.utils.ChangedUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static uz.narzullayev.javohir.utils.ChangedUtils.*;
 import static uz.narzullayev.javohir.utils.ChangedUtils.isChanged;
 
 public class DeferredBuilder<T> implements Consumer<DeferredChanged<T>> {

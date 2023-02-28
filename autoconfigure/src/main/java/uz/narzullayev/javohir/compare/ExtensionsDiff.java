@@ -5,6 +5,8 @@ import uz.narzullayev.javohir.model.Change;
 import uz.narzullayev.javohir.model.Changed;
 import uz.narzullayev.javohir.model.ChangedExtensions;
 import uz.narzullayev.javohir.model.DiffContext;
+import uz.narzullayev.javohir.utils.ChangedUtils;
+import uz.narzullayev.javohir.utils.Copy;
 
 import java.util.*;
 import java.util.function.Function;
@@ -58,9 +60,9 @@ public class ExtensionsDiff {
 
   public Optional<ChangedExtensions> diff(
       Map<String, Object> left, Map<String, Object> right, DiffContext context) {
-    left = copyMap(left);
-    right = copyMap(right);
-    ChangedExtensions changedExtensions = new ChangedExtensions(left, copyMap(right), context);
+    left = Copy.copyMap(left);
+    right = Copy.copyMap(right);
+    ChangedExtensions changedExtensions = new ChangedExtensions(left, Copy.copyMap(right), context);
     for (Map.Entry<String, Object> entry : left.entrySet()) {
       if (right.containsKey(entry.getKey())) {
         Object rightValue = right.remove(entry.getKey());
@@ -78,7 +80,7 @@ public class ExtensionsDiff {
             executeExtensionDiff(key, Change.added(value), context)
                 .filter(Changed::isDifferent)
                 .ifPresent(changed -> changedExtensions.getIncreased().put(key, changed)));
-    return isChanged(changedExtensions);
+    return ChangedUtils.isChanged(changedExtensions);
   }
 
   private Optional<Changed> executeExtensionDiff(

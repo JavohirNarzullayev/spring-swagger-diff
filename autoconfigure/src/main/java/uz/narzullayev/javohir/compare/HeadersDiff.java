@@ -6,6 +6,7 @@ import uz.narzullayev.javohir.model.ChangedHeaders;
 import uz.narzullayev.javohir.model.DiffContext;
 import uz.narzullayev.javohir.model.deferred.DeferredBuilder;
 import uz.narzullayev.javohir.model.deferred.DeferredChanged;
+import uz.narzullayev.javohir.utils.ChangedUtils;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,7 +39,7 @@ public class HeadersDiff {
         .build()
         .mapOptional(
             value ->
-                isChanged(
+                ChangedUtils.isChanged(
                     new ChangedHeaders(left, right, context)
                         .setIncreased(headerMapDiff.getIncreased())
                         .setMissing(headerMapDiff.getMissing())

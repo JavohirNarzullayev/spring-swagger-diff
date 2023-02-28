@@ -13,6 +13,7 @@ import uz.narzullayev.javohir.model.deferred.DeferredBuilder;
 import uz.narzullayev.javohir.model.deferred.DeferredChanged;
 import uz.narzullayev.javohir.model.deferred.RecursiveSchemaSet;
 import uz.narzullayev.javohir.model.schema.*;
+import uz.narzullayev.javohir.utils.ChangedUtils;
 
 import java.util.*;
 
@@ -105,7 +106,7 @@ public class SchemaDiffResult {
         && !isPropertyApplicable(changedSchema.getNewSchema(), context)) {
       return Optional.empty();
     }
-    return isChanged(changedSchema);
+    return ChangedUtils.isChanged(changedSchema);
   }
 
   private Map<String, Schema<?>> filterProperties(
@@ -168,10 +169,10 @@ public class SchemaDiffResult {
             .whenSet(
                 optional -> {
                   ChangedSchema apc = optional.orElse(apChangedSchema);
-                  isChanged(apc).ifPresent(changedSchema::setAddProp);
+                  ChangedUtils.isChanged(apc).ifPresent(changedSchema::setAddProp);
                 });
       } else {
-        isChanged(apChangedSchema).ifPresent(changedSchema::setAddProp);
+        ChangedUtils.isChanged(apChangedSchema).ifPresent(changedSchema::setAddProp);
       }
     }
   }

@@ -28,11 +28,8 @@ public class SwaggerDiffAutoConfigurationEnvironmentPostProcessor implements Env
                         Map.of("spring.autoconfigure.exclude", newPropertyValue)));
             });
             if (env.acceptsProfiles(Profiles.of("dev"))) {
-                System.out.println("pl");
+                System.out.println("Swagger diff enabled");
             }
-
-
-
         }
     }
 

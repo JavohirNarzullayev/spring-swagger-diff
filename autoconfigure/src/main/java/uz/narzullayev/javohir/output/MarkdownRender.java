@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uz.narzullayev.javohir.model.*;
+import uz.narzullayev.javohir.utils.ChangedUtils;
 import uz.narzullayev.javohir.utils.RefPointer;
 import uz.narzullayev.javohir.utils.RefType;
 
@@ -494,7 +495,7 @@ public class MarkdownRender implements Render {
     if (changedMetadata == null) {
       return "";
     }
-    if (!isUnchanged(changedMetadata) && showChangedMetadata) {
+    if (!ChangedUtils.isUnchanged(changedMetadata) && showChangedMetadata) {
       return format(
           "Changed %s:\n%s\nto:\n%s\n\n",
           name,

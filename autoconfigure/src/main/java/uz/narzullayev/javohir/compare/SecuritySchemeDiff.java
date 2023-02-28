@@ -7,6 +7,7 @@ import uz.narzullayev.javohir.model.ChangedSecuritySchemeScopes;
 import uz.narzullayev.javohir.model.DiffContext;
 import uz.narzullayev.javohir.model.deferred.DeferredChanged;
 import uz.narzullayev.javohir.model.deferred.RealizedChanged;
+import uz.narzullayev.javohir.utils.ChangedUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -57,7 +58,7 @@ public class SecuritySchemeDiff extends ReferenceDiffCache<SecurityScheme, Chang
 
           if (changedSecurityScheme != null
               && leftSecurityScheme.getType() == SecurityScheme.Type.OAUTH2) {
-            isChanged(ListDiff.diff(new ChangedSecuritySchemeScopes(leftScopes, rightScopes)))
+            ChangedUtils.isChanged(ListDiff.diff(new ChangedSecuritySchemeScopes(leftScopes, rightScopes)))
                 .ifPresent(changedSecurityScheme::setChangedScopes);
           }
 

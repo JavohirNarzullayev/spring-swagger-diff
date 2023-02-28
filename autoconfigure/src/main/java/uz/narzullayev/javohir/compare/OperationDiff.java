@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import uz.narzullayev.javohir.model.*;
 import uz.narzullayev.javohir.model.deferred.DeferredBuilder;
 import uz.narzullayev.javohir.model.deferred.DeferredChanged;
+import uz.narzullayev.javohir.utils.ChangedUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -128,7 +129,7 @@ public class OperationDiff {
         .build()
         .mapOptional(
             value -> {
-              Optional<ChangedOperation> changed = isChanged(changedOperation);
+              Optional<ChangedOperation> changed = ChangedUtils.isChanged(changedOperation);
               log.debug(
                   "Is changed operation "
                       + changedOperation.getPathUrl()

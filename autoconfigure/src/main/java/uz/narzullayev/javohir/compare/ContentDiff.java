@@ -8,13 +8,11 @@ import uz.narzullayev.javohir.model.ChangedMediaType;
 import uz.narzullayev.javohir.model.DiffContext;
 import uz.narzullayev.javohir.model.deferred.DeferredBuilder;
 import uz.narzullayev.javohir.model.deferred.DeferredChanged;
+import uz.narzullayev.javohir.utils.ChangedUtils;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import static uz.narzullayev.javohir.utils.ChangedUtils.isChanged;
-import static uz.narzullayev.javohir.utils.ChangedUtils.isUnchanged;
 
 public class ContentDiff {
 
@@ -51,7 +49,7 @@ public class ContentDiff {
                   .ifPresent(
                       value -> {
                         changedMediaType.setSchema(value);
-                        if (!isUnchanged(changedMediaType)) {
+                        if (!ChangedUtils.isUnchanged(changedMediaType)) {
                           changedMediaTypes.put(mediaTypeKey, changedMediaType);
                         }
                       });
@@ -61,7 +59,7 @@ public class ContentDiff {
         .build()
         .mapOptional(
             value ->
-                isChanged(
+                ChangedUtils.isChanged(
                     new ChangedContent(left, right, context)
                         .setIncreased(mediaTypeDiff.getIncreased())
                         .setMissing(mediaTypeDiff.getMissing())

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import j2html.TagCreator;
 import j2html.tags.ContainerTag;
 import j2html.tags.specialized.*;
 
@@ -59,31 +60,31 @@ public class HtmlRender implements Render {
 
   public String renderHtml(OlTag ol_new, OlTag ol_miss, OlTag ol_deprec, OlTag ol_changed) {
     HtmlTag html =
-        html()
+        TagCreator.html()
             .attr("lang", "en")
             .with(
-                head()
+                TagCreator.head()
                     .with(
-                        meta().withCharset("utf-8"),
-                        title(title),
-                        link().withRel("stylesheet").withHref(linkCss)),
-                body()
+                        TagCreator.meta().withCharset("utf-8"),
+                        TagCreator.title(title),
+                        TagCreator.link().withRel("stylesheet").withHref(linkCss)),
+                TagCreator.body()
                     .with(
-                        header().with(h1(title)),
-                        div()
+                        TagCreator.header().with(TagCreator.h1(title)),
+                        TagCreator.div()
                             .withClass("article")
                             .with(
-                                div().with(h2("What's New"), hr(), ol_new),
-                                div().with(h2("What's Deleted"), hr(), ol_miss),
-                                div().with(h2("What's Deprecated"), hr(), ol_deprec),
-                                div().with(h2("What's Changed"), hr(), ol_changed))));
+                                TagCreator.div().with(TagCreator.h2("What's New"), TagCreator.hr(), ol_new),
+                                TagCreator.div().with(TagCreator.h2("What's Deleted"), TagCreator.hr(), ol_miss),
+                                TagCreator.div().with(TagCreator.h2("What's Deprecated"), TagCreator.hr(), ol_deprec),
+                                TagCreator.div().with(TagCreator.h2("What's Changed"), TagCreator.hr(), ol_changed))));
 
-    return document().render() + html.render();
+    return TagCreator.document().render() + html.render();
   }
 
   private OlTag ol_newEndpoint(List<Endpoint> endpoints) {
-    if (null == endpoints) return ol();
-    OlTag ol = ol();
+    if (null == endpoints) return TagCreator.ol();
+    OlTag ol = TagCreator.ol();
     for (Endpoint endpoint : endpoints) {
       ol.with(
           li_newEndpoint(
@@ -93,12 +94,12 @@ public class HtmlRender implements Render {
   }
 
   private LiTag li_newEndpoint(String method, String path, String desc) {
-    return li().with(span(method).withClass(method)).withText(path + " ").with(span(desc));
+    return TagCreator.li().with(TagCreator.span(method).withClass(method)).withText(path + " ").with(TagCreator.span(desc));
   }
 
   private OlTag ol_missingEndpoint(List<Endpoint> endpoints) {
-    if (null == endpoints) return ol();
-    OlTag ol = ol();
+    if (null == endpoints) return TagCreator.ol();
+    OlTag ol = TagCreator.ol();
     for (Endpoint endpoint : endpoints) {
       ol.with(
           li_missingEndpoint(
@@ -108,12 +109,12 @@ public class HtmlRender implements Render {
   }
 
   private LiTag li_missingEndpoint(String method, String path, String desc) {
-    return li().with(span(method).withClass(method), del().withText(path)).with(span(" " + desc));
+    return TagCreator.li().with(TagCreator.span(method).withClass(method), TagCreator.del().withText(path)).with(TagCreator.span(" " + desc));
   }
 
   private OlTag ol_deprecatedEndpoint(List<Endpoint> endpoints) {
-    if (null == endpoints) return ol();
-    OlTag ol = ol();
+    if (null == endpoints) return TagCreator.ol();
+    OlTag ol = TagCreator.ol();
     for (Endpoint endpoint : endpoints) {
       ol.with(
           li_deprecatedEndpoint(
@@ -123,12 +124,12 @@ public class HtmlRender implements Render {
   }
 
   private LiTag li_deprecatedEndpoint(String method, String path, String desc) {
-    return li().with(span(method).withClass(method), del().withText(path)).with(span(" " + desc));
+    return TagCreator.li().with(TagCreator.span(method).withClass(method), TagCreator.del().withText(path)).with(TagCreator.span(" " + desc));
   }
 
   private OlTag ol_changed(List<ChangedOperation> changedOperations) {
-    if (null == changedOperations) return ol();
-    OlTag ol = ol();
+    if (null == changedOperations) return TagCreator.ol();
+    OlTag ol = TagCreator.ol();
     for (ChangedOperation changedOperation : changedOperations) {
       String pathUrl = changedOperation.getPathUrl();
       String method = changedOperation.getHttpMethod().toString();
@@ -137,24 +138,24 @@ public class HtmlRender implements Render {
               .map(ChangedMetadata::getRight)
               .orElse("");
 
-      UlTag ul_detail = ul().withClass("detail");
+      UlTag ul_detail = TagCreator.ul().withClass("detail");
       if (result(changedOperation.getParameters()).isDifferent()) {
         ul_detail.with(
-            li().with(h3("Parameters")).with(ul_param(changedOperation.getParameters())));
+            TagCreator.li().with(TagCreator.h3("Parameters")).with(ul_param(changedOperation.getParameters())));
       }
       if (changedOperation.resultRequestBody().isDifferent()) {
         ul_detail.with(
-            li().with(h3("Request"))
+            TagCreator.li().with(TagCreator.h3("Request"))
                 .with(ul_request(changedOperation.getRequestBody().getContent())));
       }
       if (changedOperation.resultApiResponses().isDifferent()) {
         ul_detail.with(
-            li().with(h3("Response")).with(ul_response(changedOperation.getApiResponses())));
+            TagCreator.li().with(TagCreator.h3("Response")).with(ul_response(changedOperation.getApiResponses())));
       }
       ol.with(
-          li().with(span(method).withClass(method))
+          TagCreator.li().with(TagCreator.span(method).withClass(method))
               .withText(pathUrl + " ")
-              .with(span(desc))
+              .with(TagCreator.span(desc))
               .with(ul_detail));
     }
     return ol;
@@ -164,7 +165,7 @@ public class HtmlRender implements Render {
     Map<String, ApiResponse> addResponses = changedApiResponse.getIncreased();
     Map<String, ApiResponse> delResponses = changedApiResponse.getMissing();
     Map<String, ChangedResponse> changedResponses = changedApiResponse.getChanged();
-    UlTag ul = ul().withClass("change response");
+    UlTag ul = TagCreator.ul().withClass("change response");
     for (Entry<String, ApiResponse> prop : addResponses.entrySet()) {
       ul.with(li_addResponse(prop.getKey(), prop.getValue()));
     }
@@ -178,21 +179,21 @@ public class HtmlRender implements Render {
   }
 
   private LiTag li_addResponse(String name, ApiResponse response) {
-    return li().withText(String.format("New response : [%s]", name))
+    return TagCreator.li().withText(String.format("New response : [%s]", name))
         .with(
-            span(null == response.getDescription() ? "" : ("//" + response.getDescription()))
+            TagCreator.span(null == response.getDescription() ? "" : ("//" + response.getDescription()))
                 .withClass(COMMENT));
   }
 
   private LiTag li_missingResponse(String name, ApiResponse response) {
-    return li().withText(String.format("Deleted response : [%s]", name))
+    return TagCreator.li().withText(String.format("Deleted response : [%s]", name))
         .with(
-            span(null == response.getDescription() ? "" : ("//" + response.getDescription()))
+            TagCreator.span(null == response.getDescription() ? "" : ("//" + response.getDescription()))
                 .withClass(COMMENT));
   }
 
   private LiTag li_changedResponse(String name, ChangedResponse response) {
-    return li().withText(String.format("Changed response : [%s]", name))
+    return TagCreator.li().withText(String.format("Changed response : [%s]", name))
         .with(
             span((null == response.getNewApiResponse()
                         || null == response.getNewApiResponse().getDescription())
@@ -203,7 +204,7 @@ public class HtmlRender implements Render {
   }
 
   private UlTag ul_request(ChangedContent changedContent) {
-    UlTag ul = ul().withClass("change request-body");
+    UlTag ul = TagCreator.ul().withClass("change request-body");
     if (changedContent != null) {
       for (String propName : changedContent.getIncreased().keySet()) {
         ul.with(li_addRequest(propName, changedContent.getIncreased().get(propName)));
@@ -219,16 +220,16 @@ public class HtmlRender implements Render {
   }
 
   private LiTag li_addRequest(String name, MediaType request) {
-    return li().withText(String.format("New body: '%s'", name));
+    return TagCreator.li().withText(String.format("New body: '%s'", name));
   }
 
   private LiTag li_missingRequest(String name, MediaType request) {
-    return li().withText(String.format("Deleted body: '%s'", name));
+    return TagCreator.li().withText(String.format("Deleted body: '%s'", name));
   }
 
   private LiTag li_changedRequest(String name, ChangedMediaType request) {
     LiTag li =
-        li().with(div_changedSchema(request.getSchema()))
+        TagCreator.li().with(div_changedSchema(request.getSchema()))
             .withText(String.format("Changed body: '%s'", name));
     if (request.isIncompatible()) {
       incompatibilities(li, request.getSchema());
@@ -237,8 +238,8 @@ public class HtmlRender implements Render {
   }
 
   private DivTag div_changedSchema(ChangedSchema schema) {
-    DivTag div = div();
-    div.with(h3("Schema" + (schema.isIncompatible() ? " incompatible" : "")));
+    DivTag div = TagCreator.div();
+    div.with(TagCreator.h3("Schema" + (schema.isIncompatible() ? " incompatible" : "")));
     return div;
   }
 
@@ -292,7 +293,7 @@ public class HtmlRender implements Render {
   }
 
   protected void property(ContainerTag<?> output, String name, String title, String type) {
-    output.with(p(String.format("%s: %s (%s)", title, name, type)).withClass(MISSING));
+    output.with(TagCreator.p(String.format("%s: %s (%s)", title, name, type)).withClass(MISSING));
   }
 
   protected Schema<?> resolve(Schema<?> schema) {
@@ -316,7 +317,7 @@ public class HtmlRender implements Render {
     List<Parameter> addParameters = changedParameters.getIncreased();
     List<Parameter> delParameters = changedParameters.getMissing();
     List<ChangedParameter> changed = changedParameters.getChanged();
-    UlTag ul = ul().withClass("change param");
+    UlTag ul = TagCreator.ul().withClass("change param");
     for (Parameter param : addParameters) {
       ul.with(li_addParam(param));
     }
@@ -330,27 +331,27 @@ public class HtmlRender implements Render {
   }
 
   private LiTag li_addParam(Parameter param) {
-    return li().withText("Add " + param.getName() + " in " + param.getIn())
+    return TagCreator.li().withText("Add " + param.getName() + " in " + param.getIn())
         .with(
-            span(null == param.getDescription() ? "" : ("//" + param.getDescription()))
+            TagCreator.span(null == param.getDescription() ? "" : ("//" + param.getDescription()))
                 .withClass(COMMENT));
   }
 
   private LiTag li_missingParam(Parameter param) {
-    return li().withClass(MISSING)
-        .with(span("Delete"))
-        .with(del(param.getName()))
-        .with(span("in ").withText(param.getIn()))
+    return TagCreator.li().withClass(MISSING)
+        .with(TagCreator.span("Delete"))
+        .with(TagCreator.del(param.getName()))
+        .with(TagCreator.span("in ").withText(param.getIn()))
         .with(
-            span(null == param.getDescription() ? "" : ("//" + param.getDescription()))
+            TagCreator.span(null == param.getDescription() ? "" : ("//" + param.getDescription()))
                 .withClass(COMMENT));
   }
 
   private LiTag li_deprecatedParam(ChangedParameter param) {
-    return li().withClass(MISSING)
-        .with(span("Deprecated"))
+    return TagCreator.li().withClass(MISSING)
+        .with(TagCreator.span("Deprecated"))
         .with(del(param.getName()))
-        .with(span("in ").withText(param.getIn()))
+        .with(TagCreator.span("in ").withText(param.getIn()))
         .with(
             span(null == param.getNewParameter().getDescription()
                     ? ""
@@ -369,15 +370,15 @@ public class HtmlRender implements Render {
             .orElse(false);
     Parameter rightParam = changeParam.getNewParameter();
     Parameter leftParam = changeParam.getNewParameter();
-    LiTag li = li().withText(changeParam.getName() + " in " + changeParam.getIn());
+    LiTag li = TagCreator.li().withText(changeParam.getName() + " in " + changeParam.getIn());
     if (changeRequired) {
       li.withText(" change into " + (rightParam.getRequired() ? "required" : "not required"));
     }
     if (changeDescription) {
       li.withText(" Notes ")
-          .with(del(leftParam.getDescription()).withClass(COMMENT))
+          .with(TagCreator.del(leftParam.getDescription()).withClass(COMMENT))
           .withText(" change into ")
-          .with(span(rightParam.getDescription()).withClass(COMMENT));
+          .with(TagCreator.span(rightParam.getDescription()).withClass(COMMENT));
     }
     return li;
   }

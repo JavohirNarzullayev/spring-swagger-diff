@@ -36,7 +36,7 @@ public class SwaggerDiffAutoConfiguration {
     private final Environment environment;
     private final SwaggerDiffProperties swaggerDiffProperties;
     private final SpringDocConfigProperties springDocConfigProperties;
-    @Scheduled(fixedDelay = 3000)
+    @Scheduled(initialDelay = 3000,fixedDelay = Long.MAX_VALUE)
     public void swaggerDiffService(
 
     ){

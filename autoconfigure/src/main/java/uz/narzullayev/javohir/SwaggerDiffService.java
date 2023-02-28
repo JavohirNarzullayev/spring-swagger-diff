@@ -6,18 +6,14 @@ import lombok.SneakyThrows;
 import org.springdoc.core.SpringDocConfigProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
-import uz.narzullayev.javohir.model.ChangedOpenApi;
 import uz.narzullayev.javohir.output.HtmlRender;
-import uz.narzullayev.javohir.output.MarkdownRender;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -28,6 +24,7 @@ public class SwaggerDiffService {
     private SpringDocConfigProperties springDocConfigProperties;
 
     @SneakyThrows
+    @SuppressWarnings("all")
     public void start() {
         var latestDocPath = swaggerDiffProperties.getLatestDocPath();
         var directory = new File(latestDocPath);
@@ -37,6 +34,7 @@ public class SwaggerDiffService {
         var docFile = "latest_swagger.json";
         var htmlFile = "diff_swagger.html";
         var filePath = Paths.get(directory.getAbsolutePath(), docFile);
+        var htmlPath = Paths.get(directory.getAbsolutePath(), htmlFile);
         boolean existFile = Files.exists(filePath);
         String latest;
         String newVersion;
@@ -53,27 +51,13 @@ public class SwaggerDiffService {
         var html = new HtmlRender("Changelog",
                 "http://deepoove.com/swagger-diff/stylesheets/demo.css")
                 .render(diff);
-        writeHtmlToFile(directory, htmlFile, html);
+        Files.writeString(htmlPath, html, StandardCharsets.UTF_8);
     }
 
-    private  void writeHtmlToFile(File directory, String htmlFile, String html) {
-        try {
-            var diffHtml = Paths.get(directory.getAbsolutePath(), htmlFile);
-            var fw = new FileWriter(diffHtml.getFileName().toFile());
-            fw.write(html);
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    @SneakyThrows
     private static void uploadDoc(Path filePath, String newVersion) {
         var in = new ByteArrayInputStream(newVersion.getBytes());
-        try {
-            Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
     }
 
     private String getDocStr() {

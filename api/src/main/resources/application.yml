@@ -1,8 +1,10 @@
 server:
   port: 8080
-
 springdoc:
   swagger-ui:
     path: /v1/test/index.html
+    diff:
+      latest-doc-path: upload_files
+      enabled: true
   api-docs:
     path: /v1/test/api-docs

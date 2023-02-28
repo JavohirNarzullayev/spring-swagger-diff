@@ -23,12 +23,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+
 @EnableScheduling
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 @ConditionalOnWebApplication
 @AutoConfigureAfter({SwaggerConfig.class})
-@ConditionalOnClass({SwaggerConfigResource.class,Scheduled.class})
+@ConditionalOnClass({SwaggerConfigResource.class, Scheduled.class})
 @ConditionalOnProperty(name = "springdoc.swagger-ui.enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties({SwaggerDiffProperties.class})
 public class SwaggerDiffAutoConfiguration {
@@ -36,10 +37,11 @@ public class SwaggerDiffAutoConfiguration {
     private final Environment environment;
     private final SwaggerDiffProperties swaggerDiffProperties;
     private final SpringDocConfigProperties springDocConfigProperties;
-    @Scheduled(initialDelay = 3000,fixedDelay = Long.MAX_VALUE)
+
+    @Scheduled(initialDelay = 3000, fixedDelay = Long.MAX_VALUE)
     public void swaggerDiffService(
 
-    ){
+    ) {
         var swaggerDiffService = new SwaggerDiffService(
                 environment,
                 swaggerDiffProperties,

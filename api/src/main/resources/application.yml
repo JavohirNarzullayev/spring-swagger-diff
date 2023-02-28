@@ -4,7 +4,7 @@ springdoc:
   swagger-ui:
     path: /v1/test/index.html
     diff:
-      latest-doc-path: upload_files
+      latest-doc-path: upload_folder
       enabled: true
   api-docs:
     path: /v1/test/api-docs

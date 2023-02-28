@@ -47,6 +47,10 @@ public class SwaggerDiffAutoConfiguration {
                 swaggerDiffProperties,
                 springDocConfigProperties
         );
-        swaggerDiffService.start();
+        try {
+            swaggerDiffService.start();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

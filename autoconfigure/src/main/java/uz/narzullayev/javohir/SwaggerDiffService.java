@@ -2,6 +2,7 @@ package uz.narzullayev.javohir;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import org.springdoc.core.SpringDocConfigProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
@@ -25,50 +27,52 @@ public class SwaggerDiffService {
     private SwaggerDiffProperties swaggerDiffProperties;
     private SpringDocConfigProperties springDocConfigProperties;
 
+    @SneakyThrows
     public void start() {
-        System.out.println(swaggerDiffProperties.getLatestDocPath());
-        String path = springDocConfigProperties.getApiDocs().getPath();
-        System.out.println(path);
         var latestDocPath = swaggerDiffProperties.getLatestDocPath();
         var directory = new File(latestDocPath);
         if (!directory.exists()) {
             directory.mkdir();
         }
-
-        var filename = "latest_swagger.json";
-        var filePath = Paths.get(directory.getAbsolutePath(), filename);
+        var docFile = "latest_swagger.json";
+        var htmlFile = "diff_swagger.html";
+        var filePath = Paths.get(directory.getAbsolutePath(), docFile);
         boolean existFile = Files.exists(filePath);
-        String latest = "null";
-        String newVersion = "null";
+        String latest;
+        String newVersion;
         if (existFile) {
-            try {
-                latest = new String(Files.readAllBytes(filePath));
-                newVersion = getDocStr();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-
+            latest = new String(Files.readAllBytes(filePath));
+            newVersion = getDocStr();
+            uploadDoc(filePath, newVersion);
         } else {
             latest = getDocStr();
             newVersion = latest;
-            var in = new ByteArrayInputStream(latest.getBytes());
-            try {
-                Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+            uploadDoc(filePath, latest);
         }
         final var diff = OpenApiCompare.fromContents(latest, newVersion);
         var html = new HtmlRender("Changelog",
                 "http://deepoove.com/swagger-diff/stylesheets/demo.css")
                 .render(diff);
+        writeHtmlToFile(directory, htmlFile, html);
+    }
+
+    private  void writeHtmlToFile(File directory, String htmlFile, String html) {
         try {
-            var diffHtml = Paths.get(directory.getAbsolutePath(),  "diff_swagger.html");
+            var diffHtml = Paths.get(directory.getAbsolutePath(), htmlFile);
             var fw = new FileWriter(diffHtml.getFileName().toFile());
             fw.write(html);
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void uploadDoc(Path filePath, String newVersion) {
+        var in = new ByteArrayInputStream(newVersion.getBytes());
+        try {
+            Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }
 

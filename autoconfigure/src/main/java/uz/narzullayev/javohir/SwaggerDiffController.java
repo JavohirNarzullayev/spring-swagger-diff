@@ -1,6 +1,7 @@
 package uz.narzullayev.javohir;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 import java.nio.file.Files;
 
-
+@Slf4j
 @Controller
 public class SwaggerDiffController {
 
@@ -38,6 +39,7 @@ public class SwaggerDiffController {
             var latestDocPath = swaggerDiffProperties.getLatestDocPath();
             var html = latestDocPath +"/"+ "diff_swagger.html";
             var file = ResourceUtils.getFile(html);
+            log.info("Swagger ui path difference : {}",SWAGGER_UI_PATH);
             return new String(Files.readAllBytes(file.toPath()));
         } catch (IOException ignored) {
             return null;

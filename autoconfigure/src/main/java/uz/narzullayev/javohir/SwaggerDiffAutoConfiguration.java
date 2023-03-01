@@ -40,7 +40,7 @@ public class SwaggerDiffAutoConfiguration {
 
     @EventListener(classes = { ContextRefreshedEvent.class})
     public void handleMultipleEvents() {
-        log.info("Checking swagger difference");
+        log.info("Checking swagger difference endpoint : {}",swaggerDiffProperties.getPathWeb());
         var swaggerDiffService = new SwaggerDiffService(
                 environment,
                 swaggerDiffProperties,

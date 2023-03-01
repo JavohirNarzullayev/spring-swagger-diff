@@ -61,6 +61,7 @@ public class SwaggerDiffAutoConfiguration {
     @ConditionalOnProperty(name = "springdoc.swagger-ui.diff.enabled", havingValue = "false", matchIfMissing = true)
     @Lazy(false)
     SwaggerDiffController swaggerDiffController() {
+        log.info("Swagger ui path difference : {}",swaggerDiffProperties.getPathWeb());
         return new SwaggerDiffController(swaggerDiffProperties);
     }
 }

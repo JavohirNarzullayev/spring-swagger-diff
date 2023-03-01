@@ -17,7 +17,7 @@ public class SwaggerDiffController {
     /**
      * The Swagger welcome common.
      */
-    public static final String SWAGGER_UI_PATH = "${springdoc.swagger-ui..diff.path-web}";
+    public static final String SWAGGER_UI_PATH = "${springdoc.swagger-ui.diff.path-web}";
 
     private final SwaggerDiffProperties swaggerDiffProperties;
 
@@ -39,7 +39,6 @@ public class SwaggerDiffController {
             var latestDocPath = swaggerDiffProperties.getLatestDocPath();
             var html = latestDocPath +"/"+ "diff_swagger.html";
             var file = ResourceUtils.getFile(html);
-            log.info("Swagger ui path difference : {}",SWAGGER_UI_PATH);
             return new String(Files.readAllBytes(file.toPath()));
         } catch (IOException ignored) {
             return null;

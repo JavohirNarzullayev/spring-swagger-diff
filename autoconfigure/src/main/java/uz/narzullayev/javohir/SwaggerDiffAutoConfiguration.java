@@ -7,12 +7,13 @@ import org.springdoc.core.SpringDocConfigProperties;
 import org.springdoc.webmvc.ui.SwaggerConfig;
 import org.springdoc.webmvc.ui.SwaggerConfigResource;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnJava;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.system.JavaVersion;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
@@ -50,17 +51,5 @@ public class SwaggerDiffAutoConfiguration {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-    }
-    @Bean
-    @Lazy(false)
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(
-            name = "springdoc.swagger-ui.diff.enabled",
-            havingValue = "true",
-            matchIfMissing = true
-    )
-    SwaggerDiffController swaggerDiffController() {
-        log.info("Swagger ui path difference : {}", swaggerDiffProperties.getPathWeb());
-        return new SwaggerDiffController(swaggerDiffProperties);
     }
 }

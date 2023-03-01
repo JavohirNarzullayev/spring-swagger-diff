@@ -5,7 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/swagger-diff/pom.xml" />
+        <option value="$PROJECT_DIR$/autoconfigure/pom.xml" />
       </list>
     </option>
   </component>

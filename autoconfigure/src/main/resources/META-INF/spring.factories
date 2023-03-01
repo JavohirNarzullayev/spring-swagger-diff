@@ -3,3 +3,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 
 org.springframework.boot.env.EnvironmentPostProcessor=\
    uz.narzullayev.javohir.SwaggerDiffAutoConfigurationEnvironmentPostProcessor
+
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+  uz.narzullayev.javohir.SwaggerDiffConfiguredFailureAnalyzer

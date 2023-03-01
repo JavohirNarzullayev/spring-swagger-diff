@@ -1,3 +1,4 @@
+/*
 package uz.narzullayev.javohir;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,3 +30,4 @@ public class ChangeController {
         }
     }
 }
+*/

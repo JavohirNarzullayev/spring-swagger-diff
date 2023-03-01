@@ -1,43 +1,41 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>uz.narzullayev.javohir</groupId>
-  <artifactId>spring-swagger-diff</artifactId>
-  <version>1.0</version>
-  <modules>
-    <module>swagger-diff</module>
-    <module>api</module>
-      <module>autoconfigure</module>
-  </modules>
-  <packaging>pom</packaging>
+    <groupId>uz.narzullayev.javohir</groupId>
+    <artifactId>spring-swagger-diff</artifactId>
+    <version>1.0</version>
+    <modules>
+        <module>api</module>
+        <module>autoconfigure</module>
+    </modules>
+    <packaging>pom</packaging>
 
-  <name>spring-swagger-diff</name>
+    <name>spring-swagger-diff</name>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.0</version>
-    <relativePath/> <!-- lookup parent from repository -->
-  </parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-  <developers>
-    <developer>
-      <name>Javohir Narzullayev</name>
-      <email>narzullayevj999@gmail.com</email>
-      <roles>
-        <role>Software Engineer</role>
-        <role>System Engineer</role>
-      </roles>
-    </developer>
-  </developers>
-
+    <developers>
+        <developer>
+            <name>Javohir Narzullayev</name>
+            <email>narzullayevj999@gmail.com</email>
+            <roles>
+                <role>Software Engineer</role>
+                <role>System Engineer</role>
+            </roles>
+        </developer>
+    </developers>
 
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>17</java.version>
-    <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-    <spring-boot.version>2.7.0</spring-boot.version>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
+        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <spring-boot.version>2.7.0</spring-boot.version>
+    </properties>
 </project>

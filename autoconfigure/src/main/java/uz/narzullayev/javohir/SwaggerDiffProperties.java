@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ToString
 public class SwaggerDiffProperties {
     private boolean enabled = true;
+    private String pathWeb = "/changelog";
     private String latestDocPath = "upload_folder";
 
 }

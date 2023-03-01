@@ -33,26 +33,4 @@
             <version>1.0</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>uz.narzullayev.javohir</groupId>
-                <artifactId>swagger-diff</artifactId>
-                <version>1.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>diff</goal>
-                        </goals>
-                        <configuration>
-                            <newSpec>http://localhost:8080/v1/test/api-docs</newSpec>
-                            <oldSpec>https://api.birdarcha.uz/v1/swagger/api-docs/admin</oldSpec>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

@@ -6,6 +6,6 @@ springdoc:
     diff:
       latest-doc-path: upload_folder
       enabled: true
-      path-web: /change
+      path-web: /changelog
   api-docs:
     path: /v1/test/api-docs

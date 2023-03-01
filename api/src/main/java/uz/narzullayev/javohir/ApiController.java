@@ -11,6 +11,14 @@ public class ApiController {
         return "Hello";
     }
 
+    @GetMapping("/v1")
+    public String test2(
+
+    ){
+        return "Hello";
+    }
+
+
     @PostMapping
     public String testPost(){
         return "Hello post";

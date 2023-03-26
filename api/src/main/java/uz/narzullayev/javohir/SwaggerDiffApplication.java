@@ -12,7 +12,8 @@ import java.util.Arrays;
 public class SwaggerDiffApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SwaggerDiffApplication.class, args);
+        ConfigurableApplicationContext run = SpringApplication.run(SwaggerDiffApplication.class, args);
+        Arrays.stream(run.getBeanDefinitionNames()).forEach(System.out::println);
     }
 }
 

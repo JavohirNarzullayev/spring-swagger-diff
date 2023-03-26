@@ -18,6 +18,14 @@ public class ApiController {
         return "Hello";
     }
 
+    @GetMapping("/v21")
+    @Deprecated
+    public String test22(
+        @RequestParam String add
+    ){
+        return "Hello";
+    }
+
 
     @PostMapping
     public String testPost(){

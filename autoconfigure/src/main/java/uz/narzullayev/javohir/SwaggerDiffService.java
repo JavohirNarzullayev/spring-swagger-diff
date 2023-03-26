@@ -7,6 +7,7 @@ import org.springdoc.core.SpringDocConfigProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 import uz.narzullayev.javohir.output.HtmlRender;
+import uz.narzullayev.javohir.output.MarkdownRender;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -52,6 +53,8 @@ public class SwaggerDiffService {
         var html = new HtmlRender("Changelog",
                 "http://deepoove.com/swagger-diff/stylesheets/demo.css")
                 .render(diff);
+        var mark = new MarkdownRender().render(diff);
+        System.out.println(mark);
         Files.writeString(htmlPath, html, StandardCharsets.UTF_8);
     }
 

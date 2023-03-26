@@ -7,5 +7,8 @@ springdoc:
       latest-doc-path: upload_folder
       enabled: true
       path-web: /changelog
+      telegram:
+        api-key: 123
+
   api-docs:
     path: /v1/test/api-docs

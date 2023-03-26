@@ -12,5 +12,17 @@ public class SwaggerDiffProperties {
     private boolean enabled = true;
     private String pathWeb = "/changelog";
     private String latestDocPath = "upload_folder";
+    private Telegram telegram;
 
+    @Getter
+    @Setter
+    @ToString
+    public static class Telegram {
+        private String apiKey;
+
+        public String getPath() {
+            return "bot" + this.apiKey;
+        }
+
+    }
 }

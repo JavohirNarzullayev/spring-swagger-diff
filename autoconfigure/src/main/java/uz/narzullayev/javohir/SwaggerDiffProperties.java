@@ -19,6 +19,8 @@ public class SwaggerDiffProperties {
     @ToString
     public static class Telegram {
         private String apiKey;
+        private String webHook;
+        private String chatId;
 
         public String getPath() {
             return "bot" + this.apiKey;

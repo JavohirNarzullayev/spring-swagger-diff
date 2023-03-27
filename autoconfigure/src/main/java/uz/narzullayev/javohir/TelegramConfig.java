@@ -8,8 +8,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
@@ -18,6 +16,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.DefaultUriTemplateHandler;
 import uz.narzullayev.javohir.telegram.exceptions.TelegramException;
 
 import java.io.IOException;
@@ -36,10 +35,8 @@ import static uz.narzullayev.javohir.telegram.model.BotMessageEnum.EXCEPTION_API
         name = "telegram.api-key"
 )
 public class TelegramConfig {
-
     @Bean
     @ConditionalOnMissingBean
-
     public RestTemplate telegramTemplate()
             throws NoSuchAlgorithmException,
             KeyStoreException,
@@ -59,7 +56,9 @@ public class TelegramConfig {
         requestFactory.setHttpClient(httpClient);
 
         var restTemplate = new RestTemplate(requestFactory);
-        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory("https://api.telegram.org"));
+        var uriTemplateHandler = new DefaultUriTemplateHandler();
+        uriTemplateHandler.setBaseUrl("https://api.telegram.org/");
+        restTemplate.setUriTemplateHandler(uriTemplateHandler);
         restTemplate.setErrorHandler(getResponseErrorHandler());
         return restTemplate;
     }
@@ -98,12 +97,16 @@ public class TelegramConfig {
         try {
             var path = swaggerDiffProperties.getTelegram()
                     .getPath();
-           /// return telegramFeign.sendMessageToUser(path, sendMessage);
+           return telegramFeign.sendMessageToUser(path, sendMessage);
             return null;
         } catch (FeignException e) {
             throw new TelegramException.DefaultException(sendMessage.getChatId(), e.getMessage());
         }
-    }*/
+    }
+
+*/
+
+
 
     @EventListener(classes = { ContextRefreshedEvent.class})
     public void handleMultipleEvents() {

@@ -545,9 +545,7 @@ public class MarkdownRender implements Render {
 
   protected String indent(int deepness) {
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < deepness; i++) {
-      sb.append(PRE_LI);
-    }
+    sb.append(PRE_LI.repeat(Math.max(0, deepness)));
     return sb.toString();
   }
 

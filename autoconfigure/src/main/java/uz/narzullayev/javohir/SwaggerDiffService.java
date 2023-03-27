@@ -27,7 +27,7 @@ public class SwaggerDiffService {
 
     @SneakyThrows
     @SuppressWarnings("all")
-    public void start() {
+    public String start() {
         var latestDocPath = swaggerDiffProperties.getLatestDocPath();
         var directory = new File(latestDocPath);
         if (!directory.exists()) {
@@ -56,6 +56,7 @@ public class SwaggerDiffService {
         var mark = new MarkdownRender().render(diff);
         System.out.println(mark);
         Files.writeString(htmlPath, html, StandardCharsets.UTF_8);
+        return mark;
     }
 
     @SneakyThrows

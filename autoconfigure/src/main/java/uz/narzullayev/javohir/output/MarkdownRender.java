@@ -28,16 +28,12 @@ public class MarkdownRender implements Render {
   private static final Logger LOGGER = LoggerFactory.getLogger(MarkdownRender.class);
   private static final String H3 = "### ";
   private static final String H4 = "✅";
-  private static final String BLUE = "\uD83D\uDFE6";
-  private static final String YELLOW = "\uD83D\uDFE1";
-  private static final String GREEN = "\uD83D\uDFE9";
-  private static final String RED = "\uD83D\uDFE5";
-  private static final String H6 = "###### ";
-  private static final String BLOCKQUOTE = "> ";
+  private static final String H6 = "✅";
+  private static final String BLOCKQUOTE = "\uD83D\uDCDD ";
   private static final String CODE = "`";
   private static final String PRE_CODE = "    ";
   private static final String PRE_LI = "    ";
-  private static final String LI = "* ";
+  private static final String LI = "`*` ";
   private static final String HR = "---\n";
 
   protected RefPointer<Schema<?>> refPointer = new RefPointer<>(RefType.SCHEMAS);
@@ -179,7 +175,7 @@ public class MarkdownRender implements Render {
     if (!code.equals("default") && !code.matches("[1-5]XX")) {
       status = HttpStatus.getReasonPhrase(Integer.parseInt(code));
     }
-    sb.append(format("%s : **%s %s**\n", title, code, status));
+    sb.append(format("%s : `**`%s %s`**` \n", title, code, status));
     sb.append(metadata(description));
     return sb.toString();
   }
@@ -311,8 +307,8 @@ public class MarkdownRender implements Render {
       sb.append(oneOfSchema(deepness, schema.getOneOfSchema(), discriminator));
     }
     if (schema.getRequired() != null) {
-      sb.append(required(deepness, "New required properties", schema.getRequired().getIncreased()));
-      sb.append(required(deepness, "New optional properties", schema.getRequired().getMissing()));
+      sb.append(required(deepness, "⚠️New required properties", schema.getRequired().getIncreased()));
+      sb.append(required(deepness, "⚠️New optional properties", schema.getRequired().getMissing()));
     }
     if (schema.getItems() != null) {
       sb.append(items(deepness, schema.getItems()));
@@ -321,14 +317,14 @@ public class MarkdownRender implements Render {
     sb.append(
         properties(
             deepness,
-            "Added property",
+            "➕ Added property",
             schema.getIncreasedProperties(),
             true,
             schema.getContext()));
     sb.append(
         properties(
             deepness,
-            "Deleted property",
+            "➖ Deleted property",
             schema.getMissingProperties(),
             false,
             schema.getContext()));
@@ -356,6 +352,7 @@ public class MarkdownRender implements Render {
     return sb.toString();
   }
 
+  @SuppressWarnings("all")
   protected String schema(int deepness, Schema schema, DiffContext context) {
     if (handledSchemas.contains(schema)) return "";
     handledSchemas.add(schema);
@@ -438,7 +435,7 @@ public class MarkdownRender implements Render {
   protected String property(
       int deepness, String title, String name, String type, String description) {
     return format(
-        "%s* %s `%s` (%s)\n%s\n",
+        "%s`*` %s `%s` (%s)\n%s\n",
         indent(deepness), title, name, type, metadata(indent(deepness + 1), description));
   }
 
@@ -454,7 +451,7 @@ public class MarkdownRender implements Render {
     StringBuilder sb = new StringBuilder();
     if (list != null && !list.isEmpty()) {
       sb.append(format("%s%s value%s:\n\n", indent(deepness), name, list.size() > 1 ? "s" : ""));
-      list.forEach(p -> sb.append(format("%s* `%s`\n", indent(deepness), p)));
+      list.forEach(p -> sb.append(format("%s`*` `%s`\n", indent(deepness), p)));
     }
     return sb.toString();
   }
@@ -462,8 +459,8 @@ public class MarkdownRender implements Render {
   protected String parameters(ChangedParameters changedParameters) {
     List<ChangedParameter> changed = changedParameters.getChanged();
     StringBuilder sb = new StringBuilder("\n");
-    sb.append(listParameter("Added", changedParameters.getIncreased()))
-        .append(listParameter("Deleted", changedParameters.getMissing()));
+    sb.append(listParameter("➕ Added", changedParameters.getIncreased()))
+        .append(listParameter("➖ Deleted", changedParameters.getMissing()));
     changed.stream().map(this::itemParameter).forEach(sb::append);
     return sb.toString();
   }
@@ -560,9 +557,7 @@ public class MarkdownRender implements Render {
   }
 
   protected String indent(int deepness) {
-    StringBuilder sb = new StringBuilder();
-    sb.append(PRE_LI.repeat(Math.max(0, deepness)));
-    return sb.toString();
+    return PRE_LI.repeat(Math.max(0, deepness));
   }
 
   protected Schema<?> resolve(Schema<?> schema) {

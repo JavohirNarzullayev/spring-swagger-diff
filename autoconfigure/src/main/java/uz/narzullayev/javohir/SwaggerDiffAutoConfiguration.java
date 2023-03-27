@@ -87,7 +87,8 @@ public class SwaggerDiffAutoConfiguration {
                 // template.ge
             });
         } catch (Exception e){
-            log.error(e.getMessage());
+            log.warn("Swagger diff has connection problems");
+            log.debug("Swagger diff {}",e.getMessage());
         }
 
     }

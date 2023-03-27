@@ -1,5 +1,6 @@
 package uz.narzullayev.javohir.output;
 
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -22,13 +23,15 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static uz.narzullayev.javohir.model.Changed.result;
-import static uz.narzullayev.javohir.utils.ChangedUtils.isUnchanged;
 
 public class MarkdownRender implements Render {
   private static final Logger LOGGER = LoggerFactory.getLogger(MarkdownRender.class);
   private static final String H3 = "### ";
-  private static final String H4 = "#### ";
-  private static final String H5 = "##### ";
+  private static final String H4 = "✅";
+  private static final String BLUE = "\uD83D\uDFE6";
+  private static final String YELLOW = "\uD83D\uDFE1";
+  private static final String GREEN = "\uD83D\uDFE9";
+  private static final String RED = "\uD83D\uDFE5";
   private static final String H6 = "###### ";
   private static final String BLOCKQUOTE = "> ";
   private static final String CODE = "`";
@@ -65,17 +68,30 @@ public class MarkdownRender implements Render {
     }
     StringBuilder sb = new StringBuilder(sectionTitle(title));
     endpoints.stream()
-        .map(e -> itemEndpoint(e.getMethod().toString(), e.getPathUrl(), e.getSummary()))
+        .map(e -> itemEndpoint(e.getMethod(), e.getPathUrl(), e.getSummary()))
         .forEach(sb::append);
     return sb.toString();
   }
 
-  protected String itemEndpoint(String method, String path, String summary) {
-    return H5 + CODE + method + CODE + " " + path + "\n\n" + metadata(summary) + "\n";
+  protected String itemEndpoint(PathItem.HttpMethod method, String path, String summary) {
+    return icon(method) + CODE + method + CODE + " " + path + "\n\n" + metadata(summary) + "\n";
   }
 
-  protected String itemEndpoint(String method, String path, ChangedMetadata summary) {
-    return H5 + CODE + method + CODE + " " + path + "\n\n" + metadata("summary", summary) + "\n";
+  private static String icon(PathItem.HttpMethod method) {
+    return switch (method){
+      case POST -> "\uD83D\uDFE9";
+      case GET -> "\uD83D\uDFE6";
+      case PUT -> "\uD83D\uDFE1";
+      case PATCH -> "\uD83D\uDFE0";
+      case DELETE -> "\uD83D\uDD34";
+      case HEAD -> "\uD83D\uDFE3";
+      case OPTIONS -> "\uD83D\uDD35";
+      case TRACE -> "\uD83D\uDFE3";
+    };
+  }
+
+  protected String itemEndpoint(PathItem.HttpMethod method, String path, ChangedMetadata summary) {
+    return icon(method) + CODE + method + CODE + " " + path + "\n\n" + metadata("summary", summary) + "\n";
   }
 
   protected String titleH5(String title) {
@@ -94,7 +110,7 @@ public class MarkdownRender implements Render {
                   new StringBuilder()
                       .append(
                           itemEndpoint(
-                              operation.getHttpMethod().toString(),
+                              operation.getHttpMethod(),
                               operation.getPathUrl(),
                               operation.getSummary()));
               if (result(operation.getParameters()).isDifferent()) {

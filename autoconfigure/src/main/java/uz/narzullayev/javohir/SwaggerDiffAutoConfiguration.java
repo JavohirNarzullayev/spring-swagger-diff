@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import uz.narzullayev.javohir.telegram.model.SendMessage;
 import uz.narzullayev.javohir.telegram.model.TgAction;
@@ -69,22 +68,27 @@ public class SwaggerDiffAutoConfiguration {
                 springDocConfigProperties
         );
 
-        var html = swaggerDiffService.start();
-        telegramRestTemplate.ifAvailable(template -> {
-            var path = swaggerDiffProperties.getTelegram().getPath();
-            var webHook = swaggerDiffProperties.getTelegram().getWebHook();
-            var chatId = swaggerDiffProperties.getTelegram().getChatId();
-            log.info("Telegram change swagger diff starting ...-> {}",path);
-            template.getForEntity(path+TgAction.SET_WEBHOOK,Void.class);
-            template.getForEntity(path+TgAction.SET_WEBHOOK,Void.class,Map.of("url",webHook));
-            var sendMessage = new SendMessage();
-            sendMessage.setText(html);
-            sendMessage.setParseMode("Markdown");
-            sendMessage.setChatId(chatId);
-            ResponseEntity<String> stringResponseEntity = template.postForEntity(path + TgAction.SEND_MESSAGE, sendMessage, String.class);
-            System.out.println();
+        try {
+            var html = swaggerDiffService.start();
+            telegramRestTemplate.ifAvailable(template -> {
+                var path = swaggerDiffProperties.getTelegram().getPath();
+                var webHook = swaggerDiffProperties.getTelegram().getWebHook();
+                var chatId = swaggerDiffProperties.getTelegram().getChatId();
+                log.info("Telegram change swagger diff starting ...-> {}",path);
+                template.getForEntity(path+TgAction.SET_WEBHOOK,Void.class);
+                template.getForEntity(path+TgAction.SET_WEBHOOK,Void.class,Map.of("url",webHook));
+                log.info("Telegram send diff swagger");
+                var sendMessage = new SendMessage();
+                sendMessage.setText(html);
+                sendMessage.setParseMode("Markdown");
+                sendMessage.setAllowSendingWithoutReply(true);
+                sendMessage.setChatId(chatId);
+                template.postForEntity(path + TgAction.SEND_MESSAGE, sendMessage, String.class);
+                // template.ge
+            });
+        } catch (Exception e){
+            log.error(e.getMessage());
+        }
 
-            // template.ge
-        });
     }
 }

@@ -33,5 +33,11 @@ This utility depend on dependency springdoc-openapi-ui
 ```web-hook``` : your secured application url <br/>
 ```chat-id``` : telegram chat id <br/>
 
+### Example of working
+```Added new api```
+![img_3.png](img_3.png)
+![img_4.png](img_4.png)
+![img_5.png](img_5.png)
+
 
 

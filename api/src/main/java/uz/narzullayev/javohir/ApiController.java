@@ -26,13 +26,13 @@ public class ApiController {
         return "Hello";
     }
 
-    @RequestMapping("/123123123")
+    @GetMapping("/123123123")
     @Operation(summary = "test summary2")
-    public String TEST(
+    public TEST TEST(
             @RequestParam String add,
             @RequestParam String add1
     ){
-        return "Hello";
+        return new TEST();
     }
 
     @PostMapping

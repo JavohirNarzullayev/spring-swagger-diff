@@ -5,11 +5,11 @@ https://github.com/Sayi/swagger-diff
 ## Introduction
 Spring swagger diff it is util and allow anyone - be it development team or your end consumers -to visualize and notify any changes from  API’s resources without having any of the implementation logic in place. It’s automatically check difference version of api documentation and show in page changes and send changes to telegram group or channel
 ```java
-   <dependency>
-         <groupId>uz.narzullayev.javohir</groupId>
-         <artifactId>autoconfigure</artifactId>
-         <version>1.0</version>
-   </dependency>
+    <dependency>
+       <groupId>uz.narzullayev.javohir</groupId>
+       <artifactId>autoconfigure-diff</artifactId>
+       <version>1.0</version>
+    </dependency>
 ```
 This utility depend on dependency springdoc-openapi-ui
 ```java

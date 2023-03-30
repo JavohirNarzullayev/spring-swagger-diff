@@ -21,6 +21,7 @@ This utility depend on dependency springdoc-openapi-ui
 ```
 ### Init config
 ![img.png](img.png)
+
 ```path``` : visual url of swagger-ui <br/>
 ```latest-doc-path``` : storage path of api documentation  <br/>
 ```path-web``` - visual url of swagger-changes  <br/>

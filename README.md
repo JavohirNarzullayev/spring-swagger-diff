@@ -19,9 +19,17 @@ This utility depend on dependency springdoc-openapi-ui
        <version>1.6.8</version>
    </dependency>
 ```
-Initial configuration though properties
+### Init config
 ![img.png](img.png)
-```Path``` : url of swagger-ui 
-```latest-doc-path``` : storage path of api documentation
-```path-web``` - url of swagger-changes
+```path``` : visual url of swagger-ui <br/>
+```latest-doc-path``` : storage path of api documentation  <br/>
+```path-web``` - visual url of swagger-changes  <br/>
+
+### Telegram config
+![img_2.png](img_2.png)
+```api-key``` : api key telegram <br/>
+```web-hook``` : your secured application url <br/>
+```chat-id``` : telegram chat id <br/>
+
+
 

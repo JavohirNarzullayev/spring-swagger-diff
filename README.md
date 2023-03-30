@@ -27,6 +27,7 @@ This utility depend on dependency springdoc-openapi-ui
 
 ### Telegram config
 ![img_2.png](img_2.png)
+
 ```api-key``` : api key telegram <br/>
 ```web-hook``` : your secured application url <br/>
 ```chat-id``` : telegram chat id <br/>

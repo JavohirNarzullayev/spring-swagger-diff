@@ -1,9 +1,28 @@
 package uz.narzullayev.javohir;
 
 
-public class Student {
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public class Student implements Employer{
+    @Schema(description = "Id of student")
     private Integer id;
+
+
     private String fio;
+
+    private Car car;
+    public static class Car{
+        private String fio;
+
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
 
     public Integer getId() {
         return id;

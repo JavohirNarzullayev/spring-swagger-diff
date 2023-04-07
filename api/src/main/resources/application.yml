@@ -8,7 +8,9 @@ springdoc:
       enabled: true
       path-web: /changelog
       telegram:
-        api-key: 123
+        api-key: 5300827301:AAEaytUiaPBPQw2SH5n2dI0HDmsxZrVqm9s
+        web-hook: https://d837-213-230-87-197.eu.ngrok.io
+        chat-id: -1001748422666
 
   api-docs:
     path: /v1/test/api-docs
